@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "zenith-stellar-co-star-zenith-stellar-co-star-zenith-backend.fullname" . }}
+  labels:
+    {{- include "zenith-stellar-co-star-zenith-stellar-co-star-zenith-backend.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "zenith-stellar-co-star-zenith-stellar-co-star-zenith-backend.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: api
