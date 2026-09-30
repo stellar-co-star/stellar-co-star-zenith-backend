@@ -1,12 +1,14 @@
 #[tokio::main]
 async fn main() {
     zenith_stellar-co-star-zenith-stellar-co-star-zenith-backend::init_tracing();
-    let state = zenith_stellar-co-star-zenith-stellar-co-star-zenith-backend::init_state().await;
+    dotenvy::dotenv().ok();
+    let config = zenith_stellar-co-star-zenith-stellar-co-star-zenith-backend::config::Config::load().expect("invalid application configuration");
+    let addr = config.bind_address.clone();
+    let state = zenith_stellar-co-star-zenith-stellar-co-star-zenith-backend::init_state_with_config(config).await;
     let app = zenith_stellar-co-star-zenith-stellar-co-star-zenith-backend::build_router(state);
 
-    let addr = "0.0.0.0:8081";
     println!("Zenith stellar-co-star-zenith-stellar-co-star-zenith-backend listening on {addr}");
-    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
     // Needed for SmartIpKeyExtractor's peer-IP fallback (used when no
     // x-forwarded-for/x-real-ip/forwarded header is present) to have a
     // real socket address to read, rather than nothing at all.
