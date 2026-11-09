@@ -118,7 +118,7 @@ jobs:
         run: cargo install cargo-fuzz --locked
 
       - name: Restore corpus from last nightly (if any)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: corpus-${{ matrix.target }}-nightly-latest
           path: fuzz/corpus/${{ matrix.target }}/
